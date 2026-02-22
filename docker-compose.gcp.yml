@@ -1,0 +1,31 @@
+services:
+  # ============================================================
+  # GCP STACKDRIVER EXPORTER (Optional Add-on)
+  # Deploy: docker compose -f docker-compose.yml -f docker-compose.gcp.yml up -d
+  # Requirements: GCP service account key in ./keys/gcp-sa-key.json
+  # ============================================================
+  stackdriver_exporter:
+    image: prometheuscommunity/stackdriver-exporter:v0.16.0
+    container_name: stackdriver_exporter
+    command:
+      - '--google.project-id=${GCP_PROJECT_ID}'
+      - '--monitoring.metrics-type-prefixes=cloudsql.googleapis.com/database,monitoring.googleapis.com/uptime_check'
+      - '--monitoring.metrics-interval=5m'
+      - '--web.listen-address=:9255'
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/etc/gcp/sa-key.json
+    volumes:
+      - ./keys/gcp-sa-key.json:/etc/gcp/sa-key.json:ro
+    ports:
+      - "9255:9255"
+    restart: unless-stopped
+    networks:
+      - monitoring_net
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+networks:
+  monitoring_net:
+    external: true

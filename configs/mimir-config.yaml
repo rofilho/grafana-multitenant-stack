@@ -1,0 +1,33 @@
+target: all
+multitenancy_enabled: false
+
+server:
+  http_listen_port: 9009
+  log_level: warn
+
+common:
+  storage:
+    backend: filesystem
+    filesystem:
+      dir: /data/mimir/common
+
+blocks_storage:
+  backend: filesystem
+  tsdb:
+    dir: /data/mimir/tsdb
+    retention_period: 720h
+  bucket_store:
+    sync_dir: /data/mimir/tsdb-sync
+  filesystem:
+    dir: /data/mimir/blocks
+
+ingester:
+  ring:
+    replication_factor: 1
+
+ruler:
+  rule_path: /data/mimir/rules
+
+alertmanager:
+  data_dir: /data/mimir/alertmanager
+  external_url: http://localhost:9009/alertmanager

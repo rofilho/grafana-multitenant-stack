@@ -1,0 +1,1299 @@
+{
+    "meta": {
+        "type": "db",
+        "canSave": true,
+        "canEdit": true,
+        "canAdmin": true,
+        "canStar": true,
+        "canDelete": true,
+        "slug": "painel-do-cliente-premium-f09f87a7-f09f87b7",
+        "url": "/d/client-overview/painel-do-cliente-premium-f09f87a7-f09f87b7",
+        "expires": "0001-01-01T00:00:00Z",
+        "created": "2026-01-25T00:29:22Z",
+        "updated": "2026-01-25T23:51:10Z",
+        "updatedBy": "admin",
+        "createdBy": "admin",
+        "version": 24,
+        "hasAcl": false,
+        "isFolder": false,
+        "folderId": 0,
+        "folderUid": "",
+        "folderTitle": "General",
+        "folderUrl": "",
+        "provisioned": false,
+        "provisionedExternalId": "",
+        "annotationsPermissions": {
+            "dashboard": {
+                "canAdd": true,
+                "canEdit": true,
+                "canDelete": true
+            },
+            "organization": {
+                "canAdd": true,
+                "canEdit": true,
+                "canDelete": true
+            }
+        }
+    },
+    "dashboard": {
+        "annotations": {
+            "list": [
+                {
+                    "builtIn": 1,
+                    "datasource": {
+                        "type": "grafana",
+                        "uid": "-- Grafana --"
+                    },
+                    "enable": true,
+                    "hide": true,
+                    "iconColor": "rgba(0, 211, 255, 1)",
+                    "name": "Annotations \u0026 Alerts",
+                    "type": "dashboard"
+                }
+            ]
+        },
+        "editable": true,
+        "fiscalYearStartMonth": 0,
+        "graphTooltip": 0,
+        "id": 2,
+        "links": [],
+        "liveNow": false,
+        "panels": [
+            {
+                "gridPos": {
+                    "h": 3,
+                    "w": 24,
+                    "x": 0,
+                    "y": 0
+                },
+                "id": 50,
+                "options": {
+                    "content": "\u003cdiv style=\"display: flex; align-items: center; justify-content: space-between; background: rgba(5, 5, 15, 0.9); backdrop-filter: blur(15px); padding: 12px 40px; border-radius: 0 0 15px 15px; border-bottom: 2px solid #2563EB; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);\"\u003e\n  \u003cdiv style=\"display: flex; align-items: center;\"\u003e\n    \u003ch1 style=\"color: #FFFFFF; margin: 0; font-family: 'Inter', sans-serif; font-weight: 800; letter-spacing: -1.5px; font-size: 34px; line-height: 1;\"\u003e\n      HORIZONTE\u003cspan style=\"color: #f97316; text-shadow: 0 0 10px rgba(249, 115, 22, 0.5);\"\u003e.TECH\u003c/span\u003e\n    \u003c/h1\u003e\n  \u003c/div\u003e\n  \u003cdiv style=\"text-align: right;\"\u003e\n    \u003cdiv style=\"color: #2563EB; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 2px; opacity: 0.8;\"\u003eNetwork Interface Node\u003c/div\u003e\n    \u003cdiv style=\"color: #FFFFFF; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 20px;\"\u003e$client \u003cspan style=\"color: #2563EB; font-weight: 400; font-size: 14px; background: rgba(37, 99, 235, 0.1); padding: 2px 8px; border-radius: 4px; margin-left: 5px;\"\u003eONLINE\u003c/span\u003e\u003c/div\u003e\n  \u003c/div\u003e\n\u003c/div\u003e",
+                    "mode": "html"
+                },
+                "title": "",
+                "type": "text"
+            },
+            {
+                "collapsed": false,
+                "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 3
+                },
+                "id": 1,
+                "panels": [],
+                "title": "🚨 System Core Signals",
+                "type": "row"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "mimir"
+                },
+                "description": "Estado Atual do Sistema",
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "thresholds"
+                        },
+                        "mappings": [
+                            {
+                                "options": {
+                                    "0": {
+                                        "color": "#FF2B6D",
+                                        "index": 0,
+                                        "text": "CRITICAL"
+                                    },
+                                    "1": {
+                                        "color": "#05FFA1",
+                                        "index": 1,
+                                        "text": "UP"
+                                    }
+                                },
+                                "type": "value"
+                            }
+                        ],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "#FF2B6D",
+                                    "value": null
+                                },
+                                {
+                                    "color": "#05FFA1",
+                                    "value": 1
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 5,
+                    "w": 3,
+                    "x": 0,
+                    "y": 4
+                },
+                "id": 2,
+                "options": {
+                    "colorMode": "background",
+                    "graphMode": "none",
+                    "justifyMode": "center",
+                    "orientation": "auto",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "",
+                        "values": false
+                    },
+                    "textMode": "auto"
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "mimir"
+                        },
+                        "expr": "up{client=\"$client\", job=\"node_exporter\"}",
+                        "refId": "A"
+                    }
+                ],
+                "title": "Status",
+                "type": "stat"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "mimir"
+                },
+                "description": "Utilização Total de CPU",
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "thresholds"
+                        },
+                        "max": 100,
+                        "min": 0,
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "#00D2FF",
+                                    "value": null
+                                },
+                                {
+                                    "color": "#F3EC19",
+                                    "value": 85
+                                },
+                                {
+                                    "color": "#FF2B6D",
+                                    "value": 95
+                                }
+                            ]
+                        },
+                        "unit": "percent"
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 5,
+                    "w": 4,
+                    "x": 3,
+                    "y": 4
+                },
+                "id": 3,
+                "options": {
+                    "orientation": "auto",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "",
+                        "values": false
+                    },
+                    "showThresholdLabels": false,
+                    "showthresholdMarkers": true
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "mimir"
+                        },
+                        "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", client=\"$client\"}[5m])) * 100)",
+                        "refId": "A"
+                    }
+                ],
+                "title": "CPU",
+                "type": "gauge"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "mimir"
+                },
+                "description": "Uso de Memória RAM",
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "thresholds"
+                        },
+                        "max": 100,
+                        "min": 0,
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "#B452FF",
+                                    "value": null
+                                },
+                                {
+                                    "color": "#F3EC19",
+                                    "value": 85
+                                },
+                                {
+                                    "color": "#FF2B6D",
+                                    "value": 95
+                                }
+                            ]
+                        },
+                        "unit": "percent"
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 5,
+                    "w": 4,
+                    "x": 7,
+                    "y": 4
+                },
+                "id": 4,
+                "options": {
+                    "orientation": "auto",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "",
+                        "values": false
+                    },
+                    "showThresholdLabels": false,
+                    "showthresholdMarkers": true
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "mimir"
+                        },
+                        "expr": "(1 - (node_memory_MemAvailable_bytes{client=\"$client\"} / node_memory_MemTotal_bytes{client=\"$client\"})) * 100",
+                        "refId": "A"
+                    }
+                ],
+                "title": "Memória",
+                "type": "gauge"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "mimir"
+                },
+                "description": "Espaço em Disco Ocupado",
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "thresholds"
+                        },
+                        "max": 100,
+                        "min": 0,
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "#05FFA1",
+                                    "value": null
+                                },
+                                {
+                                    "color": "#F3EC19",
+                                    "value": 85
+                                },
+                                {
+                                    "color": "#FF2B6D",
+                                    "value": 95
+                                }
+                            ]
+                        },
+                        "unit": "percent"
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 5,
+                    "w": 4,
+                    "x": 11,
+                    "y": 4
+                },
+                "id": 5,
+                "options": {
+                    "orientation": "auto",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "",
+                        "values": false
+                    },
+                    "showThresholdLabels": false,
+                    "showthresholdMarkers": true
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "mimir"
+                        },
+                        "expr": "100 - ((node_filesystem_avail_bytes{mountpoint=\"/\", client=\"$client\"} * 100) / node_filesystem_size_bytes{mountpoint=\"/\", client=\"$client\"})",
+                        "refId": "A"
+                    }
+                ],
+                "title": "Disco (Espaço)",
+                "type": "gauge"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "mimir"
+                },
+                "description": "Carga do Sistema (5m)",
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "thresholds"
+                        },
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "#00D2FF",
+                                    "value": null
+                                },
+                                {
+                                    "color": "#FF2B6D",
+                                    "value": 2
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 5,
+                    "w": 4,
+                    "x": 15,
+                    "y": 4
+                },
+                "id": 25,
+                "options": {
+                    "colorMode": "value",
+                    "graphMode": "area",
+                    "justifyMode": "auto",
+                    "orientation": "auto",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "",
+                        "values": false
+                    },
+                    "textMode": "auto"
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "mimir"
+                        },
+                        "expr": "node_load1{client=~\"$client.*\"}",
+                        "refId": "A"
+                    }
+                ],
+                "title": "Carga (Load)",
+                "type": "stat"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "mimir"
+                },
+                "description": "Leitura e Escrita em Disco",
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "axisCenteredZero": false,
+                            "axisColorMode": "text",
+                            "axisLabel": "",
+                            "axisPlacement": "auto",
+                            "barAlignment": 0,
+                            "drawStyle": "line",
+                            "fillOpacity": 20,
+                            "gradientMode": "opacity",
+                            "hideFrom": {
+                                "legend": false,
+                                "tooltip": false,
+                                "viz": false
+                            },
+                            "lineInterpolation": "smooth",
+                            "lineWidth": 2,
+                            "pointSize": 5,
+                            "scaleDistribution": {
+                                "type": "linear"
+                            },
+                            "showPoints": "never",
+                            "spanNulls": false,
+                            "stacking": {
+                                "group": "A",
+                                "mode": "none"
+                            },
+                            "thresholdsStyle": {
+                                "mode": "off"
+                            }
+                        },
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                }
+                            ]
+                        },
+                        "unit": "Bps"
+                    },
+                    "overrides": [
+                        {
+                            "matcher": {
+                                "id": "byName",
+                                "options": "Leitura"
+                            },
+                            "properties": [
+                                {
+                                    "id": "color",
+                                    "value": {
+                                        "fixedColor": "#00D2FF",
+                                        "mode": "fixed"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "matcher": {
+                                "id": "byName",
+                                "options": "Escrita"
+                            },
+                            "properties": [
+                                {
+                                    "id": "color",
+                                    "value": {
+                                        "fixedColor": "#B452FF",
+                                        "mode": "fixed"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "gridPos": {
+                    "h": 5,
+                    "w": 5,
+                    "x": 19,
+                    "y": 4
+                },
+                "id": 6,
+                "options": {
+                    "legend": {
+                        "calcs": [],
+                        "displayMode": "list",
+                        "placement": "right",
+                        "showLegend": true
+                    },
+                    "tooltip": {
+                        "mode": "single",
+                        "sort": "none"
+                    }
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "mimir"
+                        },
+                        "expr": "sum by (client) (rate(node_disk_read_bytes_total{client=\"$client\"}[5m]))",
+                        "legendFormat": "Leitura",
+                        "refId": "A"
+                    },
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "mimir"
+                        },
+                        "expr": "sum by (client) (rate(node_disk_written_bytes_total{client=\"$client\"}[5m]))",
+                        "legendFormat": "Escrita",
+                        "refId": "B"
+                    }
+                ],
+                "title": "Disco I/O (R/W)",
+                "type": "timeseries"
+            },
+            {
+                "collapsed": false,
+                "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 9
+                },
+                "id": 20,
+                "panels": [],
+                "repeat": "has_containers",
+                "title": "🔍 Detalhamento Proativo (Processos \u0026 Containers)",
+                "type": "row"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "mimir"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "hideFrom": {
+                                "legend": false,
+                                "tooltip": false,
+                                "viz": false
+                            }
+                        },
+                        "unit": "bytes"
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 10
+                },
+                "id": 21,
+                "options": {
+                    "displayMode": "gradient",
+                    "orientation": "horizontal",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "",
+                        "values": false
+                    },
+                    "showUnfilled": true
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "mimir"
+                        },
+                        "expr": "topk(5, sum by (groupname) (namedprocess_namegroup_memory_bytes{client=\"$client\", memtype=\"resident\"}))",
+                        "legendFormat": "{{groupname}}",
+                        "refId": "A"
+                    }
+                ],
+                "title": "Top 5 Aplicações (RAM)",
+                "type": "bargauge"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "mimir"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "thresholds"
+                        },
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "#00D2FF",
+                                    "value": null
+                                },
+                                {
+                                    "color": "#FF2B6D",
+                                    "value": 85
+                                }
+                            ]
+                        },
+                        "unit": "percent"
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 10
+                },
+                "id": 22,
+                "options": {
+                    "displayMode": "lcd",
+                    "orientation": "horizontal",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "",
+                        "values": false
+                    },
+                    "showUnfilled": true,
+                    "textMode": "value"
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "mimir"
+                        },
+                        "expr": "topk(5, sum by (groupname) (rate(namedprocess_namegroup_cpu_seconds_total{client=\"$client\"}[5m]) * 100))",
+                        "legendFormat": "{{groupname}}",
+                        "refId": "A"
+                    }
+                ],
+                "title": "Top 5 Aplicações (CPU %)",
+                "type": "bargauge"
+            },
+            {
+                "collapsed": false,
+                "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 18
+                },
+                "id": 60,
+                "panels": [],
+                "title": "🌐 Conectividade e Tráfego",
+                "type": "row"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "mimir"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "fixedColor": "#00D2FF",
+                            "mode": "fixed"
+                        },
+                        "unit": "bps"
+                    }
+                },
+                "gridPos": {
+                    "h": 5,
+                    "w": 8,
+                    "x": 0,
+                    "y": 19
+                },
+                "id": 61,
+                "options": {
+                    "colorMode": "value",
+                    "graphMode": "area",
+                    "justifyMode": "auto",
+                    "orientation": "auto",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "",
+                        "values": false
+                    },
+                    "textMode": "auto"
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "mimir"
+                        },
+                        "expr": "sum(rate(node_network_receive_bytes_total{client=\"$client\"}[5m]))",
+                        "legendFormat": "Entrada",
+                        "refId": "A"
+                    }
+                ],
+                "title": "Rede (Entrada)",
+                "type": "stat"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "mimir"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "fixedColor": "#B452FF",
+                            "mode": "fixed"
+                        },
+                        "unit": "bps"
+                    }
+                },
+                "gridPos": {
+                    "h": 5,
+                    "w": 8,
+                    "x": 8,
+                    "y": 19
+                },
+                "id": 62,
+                "options": {
+                    "colorMode": "value",
+                    "graphMode": "area",
+                    "justifyMode": "auto",
+                    "orientation": "auto",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "",
+                        "values": false
+                    },
+                    "textMode": "auto"
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "mimir"
+                        },
+                        "expr": "sum(rate(node_network_transmit_bytes_total{client=\"$client\"}[5m]))",
+                        "legendFormat": "Saída",
+                        "refId": "A"
+                    }
+                ],
+                "title": "Rede (Saída)",
+                "type": "stat"
+            },
+            {
+                "datasource": {
+                    "type": "loki",
+                    "uid": "loki"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "fixedColor": "#B452FF",
+                            "mode": "fixed"
+                        },
+                        "unit": "ops"
+                    }
+                },
+                "gridPos": {
+                    "h": 5,
+                    "w": 8,
+                    "x": 16,
+                    "y": 19
+                },
+                "id": 63,
+                "options": {
+                    "colorMode": "value",
+                    "graphMode": "area",
+                    "justifyMode": "auto",
+                    "orientation": "auto",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "",
+                        "values": false
+                    },
+                    "textMode": "auto"
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "loki",
+                            "uid": "loki"
+                        },
+                        "expr": "sum(count_over_time({client=~\"$client.*\"}[5m])) / 300",
+                        "legendFormat": "Hits/s",
+                        "refId": "A"
+                    }
+                ],
+                "title": "Acessos em Tempo Real",
+                "type": "stat"
+            },
+            {
+                "collapsed": false,
+                "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 24
+                },
+                "id": 7,
+                "panels": [],
+                "title": "Histórico de Infraestrutura",
+                "type": "row"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "mimir"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "fixedColor": "#00D2FF",
+                            "mode": "fixed"
+                        },
+                        "custom": {
+                            "axisCenteredZero": false,
+                            "axisColorMode": "text",
+                            "axisLabel": "",
+                            "axisPlacement": "auto",
+                            "barAlignment": 0,
+                            "drawStyle": "line",
+                            "fillOpacity": 15,
+                            "gradientMode": "opacity",
+                            "hideFrom": {
+                                "legend": false,
+                                "tooltip": false,
+                                "viz": false
+                            },
+                            "lineInterpolation": "smooth",
+                            "lineWidth": 2,
+                            "pointSize": 5,
+                            "scaleDistribution": {
+                                "type": "linear"
+                            },
+                            "showPoints": "never",
+                            "spanNulls": false,
+                            "stacking": {
+                                "group": "A",
+                                "mode": "none"
+                            },
+                            "thresholdsStyle": {
+                                "mode": "off"
+                            }
+                        },
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "red",
+                                    "value": 80
+                                }
+                            ]
+                        },
+                        "unit": "percent"
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 25
+                },
+                "id": 8,
+                "options": {
+                    "legend": {
+                        "calcs": [],
+                        "displayMode": "list",
+                        "placement": "bottom",
+                        "showLegend": true
+                    },
+                    "tooltip": {
+                        "mode": "single",
+                        "sort": "none"
+                    }
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "mimir"
+                        },
+                        "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", client=\"$client\"}[5m])) * 100)",
+                        "legendFormat": "CPU %",
+                        "refId": "A"
+                    }
+                ],
+                "title": "Histórico de CPU",
+                "type": "timeseries"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "mimir"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "fixedColor": "#B452FF",
+                            "mode": "fixed"
+                        },
+                        "custom": {
+                            "axisCenteredZero": false,
+                            "axisColorMode": "text",
+                            "axisLabel": "",
+                            "axisPlacement": "auto",
+                            "barAlignment": 0,
+                            "drawStyle": "line",
+                            "fillOpacity": 20,
+                            "gradientMode": "opacity",
+                            "hideFrom": {
+                                "legend": false,
+                                "tooltip": false,
+                                "viz": false
+                            },
+                            "lineInterpolation": "smooth",
+                            "lineWidth": 2,
+                            "pointSize": 5,
+                            "scaleDistribution": {
+                                "type": "linear"
+                            },
+                            "showPoints": "never",
+                            "spanNulls": false,
+                            "stacking": {
+                                "group": "A",
+                                "mode": "none"
+                            },
+                            "thresholdsStyle": {
+                                "mode": "off"
+                            }
+                        },
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                }
+                            ]
+                        },
+                        "unit": "bytes"
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 25
+                },
+                "id": 9,
+                "options": {
+                    "legend": {
+                        "calcs": [],
+                        "displayMode": "list",
+                        "placement": "bottom",
+                        "showLegend": true
+                    },
+                    "tooltip": {
+                        "mode": "single",
+                        "sort": "none"
+                    }
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "mimir"
+                        },
+                        "expr": "node_memory_MemTotal_bytes{client=\"$client\"} - node_memory_MemAvailable_bytes{client=\"$client\"}",
+                        "legendFormat": "Memória Usada",
+                        "refId": "A"
+                    }
+                ],
+                "title": "Histórico de Memória",
+                "type": "timeseries"
+            },
+            {
+                "collapsed": false,
+                "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 33
+                },
+                "id": 10,
+                "panels": [],
+                "repeat": "has_logs",
+                "title": "🔥 Logs de Aplicação",
+                "type": "row"
+            },
+            {
+                "datasource": {
+                    "type": "loki",
+                    "uid": "loki"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "custom": {
+                            "hideFrom": {
+                                "legend": false,
+                                "tooltip": false,
+                                "viz": false
+                            }
+                        },
+                        "mappings": [
+                            {
+                                "options": {
+                                    "CriticalErrors": {
+                                        "color": "red",
+                                        "index": 0,
+                                        "text": "CRÍTICO"
+                                    },
+                                    "Sessions": {
+                                        "color": "purple",
+                                        "index": 2,
+                                        "text": "SESSÃO"
+                                    },
+                                    "Warnings": {
+                                        "color": "orange",
+                                        "index": 1,
+                                        "text": "AVISO"
+                                    }
+                                },
+                                "type": "value"
+                            }
+                        ]
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 10,
+                    "w": 24,
+                    "x": 0,
+                    "y": 34
+                },
+                "id": 11,
+                "options": {
+                    "dedupStrategy": "none",
+                    "enableLogDetails": true,
+                    "prettifyLogMessage": true,
+                    "showCommonLabels": false,
+                    "showLabels": true,
+                    "showTime": true,
+                    "sortOrder": "Descending",
+                    "wrapLogMessage": true
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "loki",
+                            "uid": "loki"
+                        },
+                        "editorMode": "code",
+                        "expr": "{client=~\"$client.*\"} |~ \"(?i)(error|failed|fatal|exception|timeout|critical|falha)\"",
+                        "queryType": "range",
+                        "refId": "CriticalErrors"
+                    },
+                    {
+                        "datasource": {
+                            "type": "loki",
+                            "uid": "loki"
+                        },
+                        "editorMode": "code",
+                        "expr": "{client=\"$client\"} |~ \"(?i)(warn|warning|alert|notice|atenção)\"",
+                        "queryType": "range",
+                        "refId": "Warnings"
+                    },
+                    {
+                        "datasource": {
+                            "type": "loki",
+                            "uid": "loki"
+                        },
+                        "editorMode": "code",
+                        "expr": "{client=\"$client\"} |~ \"(?i)(session|auth|login|token|cookie|sessão)\"",
+                        "queryType": "range",
+                        "refId": "Sessions"
+                    },
+                    {
+                        "datasource": {
+                            "type": "loki",
+                            "uid": "loki"
+                        },
+                        "editorMode": "code",
+                        "expr": "{client=\"$client\"} !~ \"(?i)(error|failed|fatal|exception|timeout|critical|warn|warning|alert|notice|session|auth|login|token|cookie|sessão)\"",
+                        "queryType": "range",
+                        "refId": "General"
+                    }
+                ],
+                "title": "Logs em Tempo Real (Erros Destacados)",
+                "type": "logs"
+            },
+            {
+                "collapsed": true,
+                "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 44
+                },
+                "id": 12,
+                "panels": [
+                    {
+                        "datasource": {
+                            "type": "tempo",
+                            "uid": "tempo"
+                        },
+                        "gridPos": {
+                            "h": 10,
+                            "w": 24,
+                            "x": 0,
+                            "y": 45
+                        },
+                        "id": 13,
+                        "options": {},
+                        "targets": [
+                            {
+                                "datasource": {
+                                    "type": "tempo",
+                                    "uid": "tempo"
+                                },
+                                "limit": 20,
+                                "query": "{ client=\"$client\" }",
+                                "queryType": "nativeSearch",
+                                "refId": "A"
+                            }
+                        ],
+                        "title": "Rastreamento Recente (Vazio por enquanto)",
+                        "type": "traces"
+                    }
+                ],
+                "repeat": "has_traces",
+                "title": "⏱️ Rastreamento (Opcional)",
+                "type": "row"
+            }
+        ],
+        "refresh": "5s",
+        "schemaVersion": 39,
+        "tags": [
+            "client",
+            "premium",
+            "overview"
+        ],
+        "templating": {
+            "list": [
+                {
+                    "current": {},
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "mimir"
+                    },
+                    "definition": "label_values(up, client)",
+                    "hide": 2,
+                    "includeAll": false,
+                    "label": "Has Containers",
+                    "multi": false,
+                    "name": "has_containers",
+                    "options": [],
+                    "query": "label_values(up, client)",
+                    "refresh": 1,
+                    "regex": "",
+                    "skipUrlSync": false,
+                    "sort": 0,
+                    "type": "query"
+                },
+                {
+                    "current": {},
+                    "datasource": {
+                        "type": "loki",
+                        "uid": "loki"
+                    },
+                    "definition": "label_values({client=\"$client\"}, client)",
+                    "hide": 2,
+                    "includeAll": false,
+                    "label": "Has Logs",
+                    "multi": false,
+                    "name": "has_logs",
+                    "options": [],
+                    "query": "label_values({client=\"$client\"}, client)",
+                    "refresh": 1,
+                    "regex": "",
+                    "skipUrlSync": false,
+                    "sort": 0,
+                    "type": "query"
+                },
+                {
+                    "current": {},
+                    "datasource": {
+                        "type": "tempo",
+                        "uid": "tempo"
+                    },
+                    "definition": "label_values(client)",
+                    "hide": 2,
+                    "includeAll": false,
+                    "label": "Has Traces",
+                    "multi": false,
+                    "name": "has_traces",
+                    "options": [],
+                    "query": "label_values(client)",
+                    "refresh": 1,
+                    "regex": "",
+                    "skipUrlSync": false,
+                    "sort": 0,
+                    "type": "query"
+                },
+                {
+                    "current": {},
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "mimir"
+                    },
+                    "definition": "label_values(up, client)",
+                    "hide": 0,
+                    "includeAll": false,
+                    "label": "Cliente",
+                    "multi": false,
+                    "name": "client",
+                    "options": [],
+                    "query": "label_values(up, client)",
+                    "refresh": 1,
+                    "regex": "",
+                    "skipUrlSync": false,
+                    "sort": 1,
+                    "type": "query"
+                }
+            ]
+        },
+        "time": {
+            "from": "now-1h",
+            "to": "now"
+        },
+        "timepicker": {},
+        "timezone": "",
+        "title": "Painel do Cliente (Premium 🇧🇷)",
+        "uid": "client-overview",
+        "version": 24,
+        "weekStart": ""
+    }
+}

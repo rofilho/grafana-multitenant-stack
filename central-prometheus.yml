@@ -1,0 +1,40 @@
+global:
+  scrape_interval: 30s
+  external_labels:
+    origin: "monitoring-central"
+
+scrape_configs:
+  - job_name: 'blackbox_probes'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      # ================================================
+      # ADD YOUR MONITORED SITES/CLIENTS HERE
+      # Format: one entry per client
+      # ================================================
+      - targets:
+          - https://your-first-client-site.com
+        labels:
+          client: "client-a"
+      - targets:
+          - https://your-second-client-site.com
+        labels:
+          client: "client-b"
+      # - targets:
+      #     - https://another-site.com
+      #   labels:
+      #     client: "client-c"
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox:9115
+
+# Push all probe metrics to Mimir (multi-tenant by 'client' label)
+remote_write:
+  - url: "http://mimir:9009/api/v1/push"
+    headers:
+      X-Scope-OrgID: "monitoring"

@@ -1,0 +1,19 @@
+# Secrets & Credentials — NEVER commit these
+.env
+keys/
+*.pem
+*.key
+*sa-key*
+*service-account*
+
+# Generated client configs (contain real passwords/IPs)
+dist/
+
+# Persistent data volumes
+data/
+
+# OS & Editor
+.DS_Store
+*.swp
+.idea/
+.vscode/

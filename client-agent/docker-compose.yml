@@ -1,0 +1,100 @@
+services:
+  # 1. Coletor de Métricas do Host (CPU, RAM, Disco)
+  node-exporter:
+    image: prom/node-exporter:v1.7.0
+    container_name: node-exporter
+    command:
+      - '--path.rootfs=/host'
+    network_mode: host
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+          cpus: '0.10'
+
+  # 2. Envio de Métricas para o Servidor Central (Mimir)
+  prometheus-agent:
+    image: prom/prometheus:v2.51.0
+    container_name: prometheus-agent
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--enable-feature=agent"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    network_mode: host
+    restart: unless-stopped
+
+  # 3. Coletor e Envio de Logs (Loki)
+  promtail:
+    image: grafana/promtail:2.9.3
+    container_name: promtail
+    volumes:
+      - /var/log:/var/log:ro
+      - ./promtail.yaml:/etc/promtail/config.yml
+    command: -config.file=/etc/promtail/config.yml
+    network_mode: host
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: '0.15'
+
+  # 4. Detalhamento de Processos (Top CPU/RAM)
+  process-exporter:
+    image: ncabatoff/process-exporter:0.7.10
+    container_name: process-exporter
+    privileged: true
+    volumes:
+      - /proc:/host/proc
+      - ./process-exporter.yml:/config/process-exporter.yml
+    command:
+      - '-procfs=/host/proc'
+      - '-config.path=/config/process-exporter.yml'
+      - '-threads=false'
+    network_mode: host
+    restart: unless-stopped
+
+  # 5. Detalhamento de Containers (Docker Stats)
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.47.0
+    container_name: cadvisor
+    privileged: true
+    devices:
+      - /dev/kmsg
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro 
+    command:
+      - '-docker_only=true'
+      - '-housekeeping_interval=10s'
+    network_mode: host
+    restart: unless-stopped
+
+  # --- DB Exporters (Habilite conforme necessidade) ---
+  
+  # mysql-exporter:
+  #   image: prom/mysqld-exporter:v0.15.1
+  #   container_name: mysql-exporter
+  #   environment:
+  #     - DATA_SOURCE_NAME=user:password@(localhost:3306)/
+  #   network_mode: host
+  
+  # postgres-exporter:
+  #   image: prometheuscommunity/postgres-exporter
+  #   container_name: postgres-exporter
+  #   environment:
+  #     - DATA_SOURCE_NAME=postgresql://user:password@localhost:5432/postgres?sslmode=disable
+  #   network_mode: host

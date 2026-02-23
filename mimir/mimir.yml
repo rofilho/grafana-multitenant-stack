@@ -1,0 +1,62 @@
+# Mimir — monolithic mode, multi-tenant
+# Docs: https://grafana.com/docs/mimir/latest/
+
+target: all
+
+multitenancy_enabled: true
+
+server:
+  http_listen_port: 9009
+  grpc_listen_port: 9095
+  log_level: warn
+
+common:
+  storage:
+    backend: filesystem
+    filesystem:
+      dir: /data/mimir/blocks
+
+ingester:
+  ring:
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: memberlist
+    replication_factor: 1
+
+memberlist:
+  join_members: []
+
+blocks_storage:
+  backend: filesystem
+  filesystem:
+    dir: /data/mimir/blocks
+  tsdb:
+    dir: /data/mimir/tsdb
+
+compactor:
+  data_dir: /data/mimir/compactor
+  sharding_ring:
+    kvstore:
+      store: memberlist
+
+ruler_storage:
+  backend: filesystem
+  local:
+    directory: /data/mimir/rules
+
+store_gateway:
+  sharding_ring:
+    replication_factor: 1
+    kvstore:
+      store: memberlist
+
+alertmanager_storage:
+  backend: filesystem
+  local:
+    path: /data/mimir/alertmanager
+
+# Limit defaults — adjust per-tenant as needed
+limits:
+  ingestion_rate: 10000
+  ingestion_burst_size: 20000
+  max_global_series_per_user: 500000

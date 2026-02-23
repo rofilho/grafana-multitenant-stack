@@ -1,0 +1,92 @@
+# Central Prometheus — internal stack health + blackbox probes
+# Runs in agent mode: no local storage, remote_writes to Mimir.
+#
+# To add a new monitored site:
+#   1. Add a target under the 'blackbox-http' job with the correct client label.
+#   2. Run `docker compose restart prometheus` to reload.
+
+global:
+  scrape_interval:     60s
+  evaluation_interval: 60s
+  external_labels:
+    monitor: central
+
+remote_write:
+  - url: http://mimir:9009/api/v1/push
+    headers:
+      X-Scope-OrgID: central
+
+scrape_configs:
+
+  # ---------------------------------------------------------------
+  # Internal service health
+  # ---------------------------------------------------------------
+  - job_name: mimir
+    static_configs:
+      - targets: ["mimir:9009"]
+        labels:
+          client: central
+
+  - job_name: loki
+    static_configs:
+      - targets: ["loki:3100"]
+        labels:
+          client: central
+
+  - job_name: tempo
+    static_configs:
+      - targets: ["tempo:3200"]
+        labels:
+          client: central
+
+  - job_name: grafana
+    static_configs:
+      - targets: ["grafana:3000"]
+        labels:
+          client: central
+
+  - job_name: blackbox-exporter
+    static_configs:
+      - targets: ["blackbox:9115"]
+        labels:
+          client: central
+
+  # ---------------------------------------------------------------
+  # Blackbox HTTP probes — add client sites below
+  # Each entry must carry a `client` label matching the tenant name.
+  #
+  # Example:
+  #   - targets: ["https://client1.example.com"]
+  #     labels:
+  #       client: client1
+  # ---------------------------------------------------------------
+  - job_name: blackbox-http
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      []  # <-- add targets here
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label:  __param_target
+      - source_labels: [__param_target]
+        target_label:  instance
+      - target_label: __address__
+        replacement:   blackbox:9115
+
+  # ---------------------------------------------------------------
+  # Blackbox HTTPS + SSL certificate expiry probes
+  # ---------------------------------------------------------------
+  - job_name: blackbox-https-ssl
+    metrics_path: /probe
+    params:
+      module: [http_2xx_ssl]
+    static_configs:
+      []  # <-- add targets here
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label:  __param_target
+      - source_labels: [__param_target]
+        target_label:  instance
+      - target_label: __address__
+        replacement:   blackbox:9115

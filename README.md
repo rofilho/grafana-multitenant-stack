@@ -1,10 +1,23 @@
-📊 Grafana Multi-tenant StackA self-hosted, multi-tenant monitoring platform for Linux servers, Docker containers, and databases. Built with the Grafana LGTM stack (Loki, Grafana, Tempo, and Mimir).📸 System Overview (Dashboards)Para garantir a melhor visualização em diferentes telas, as capturas de tela foram organizadas em uma galeria técnica:Infrastructure & MetricsLogs & Security<img src="https://github.com/user-attachments/assets/bd9396a6-43cc-4ffe-b1f0-3f178b9282e1" width="450" alt="Server Metrics"><img src="https://github.com/user-attachments/assets/6cd2ec54-c828-481d-8def-683a095b7773" width="450" alt="Log Aggregation">Application TracingUptime & SSL Probes<img src="https://github.com/user-attachments/assets/098f4f0a-8ebc-4522-81bf-4a8c386145ef" width="450" alt="Tempo Tracing"><img src="https://github.com/user-attachments/assets/8b46337e-cec0-4c49-8a49-053ddc883c97" width="450" alt="Blackbox Exporter">💡 Resumo Executivo: Esta solução elimina a dependência de SaaS e custos por agente, permitindo isolamento total de dados entre clientes via cabeçalhos de organização (Tenants).✨ FeaturesOrganização técnica das capacidades do sistema:🖥️ Server Metrics: CPU, RAM, Disk e Network via Node Exporter.🐳 Container Monitoring: Estatísticas granulares por container via cAdvisor.🗄️ Database Monitoring: Suporte para MySQL, MariaDB e PostgreSQL.📋 Log Aggregation: Centralização de logs do sistema via Loki e Promtail.🌐 HTTP/SSL Probes: Monitoramento de uptime e expiração de certificados.👥 Multi-tenant: Dashboards isolados por cliente: um usuário nunca acessa dados de outro.🏗️ ArchitectureO fluxo de dados é direto e otimizado para segurança:Plaintext[Client Server]  →  HTTPS (metrics + logs)  →  [Monitoring Server]
- Prometheus Agent                                Mimir (metrics)
- Promtail (logs)                                 Loki (logs)
- Node/cAdvisor                                   Grafana (dashboards)
- DB Exporters                                    Blackbox (probes)
-🚀 Quick Start1. Central Server SetupBashgit clone https://github.com/rofilho/grafana-multitenant-stack.git
+📊 Monitoring StackA self-hosted, multi-tenant monitoring platform for Linux servers, Docker containers, and databases. Built with the Grafana LGTM stack (Loki + Grafana + Tempo + Mimir).🖥️ Dashboards OverviewInfrastructure & MetricsLogs & SecurityApplication TracingUptime & SSL ProbesAdd a server → get instant dashboards. No cloud, no SaaS, no per-agent pricing.✨ Features🖥️ Server Metrics: CPU, RAM, Disk, Network (Node Exporter)🐳 Container Monitoring: Per-container stats (cAdvisor)🗄️ Database Monitoring: MySQL, MariaDB, PostgreSQL — queries, connections, transactions📋 Log Aggregation: System logs in Grafana (Loki + Promtail)🌐 HTTP/SSL Probes: Uptime and certificate expiry (Blackbox Exporter)👥 Multi-tenant: Isolated dashboard per client — they only see their data🔒 Secure: Basic Auth gateway, isolated Grafana folders, viewer-only users💨 Lightweight: 4 GB RAM minimum for the server, ~128MB per client agent🏗️ ArchitecturePlaintext[Client Server]  →  HTTPS (metrics + logs)  →  [Monitoring Server]
+  Prometheus Agent                                Mimir (metrics)
+  Promtail (logs)                                 Loki (logs)
+  Node/Process/cAdvisor                           Grafana (dashboards)
+  DB Exporters (optional)                         Blackbox (probes)
+📖 See docs/architecture.md for the full diagram.🚀 Quick Start1. Server Setup (5 minutes)Bashgit clone https://github.com/rofilho/grafana-multitenant-stack.git
 cd grafana-multitenant-stack
 chmod +x scripts/setup.sh
 ./scripts/setup.sh
-2. Onboarding de ClienteOrganize o processo em três etapas rápidas:Gerar pacote no servidor: ./scripts/onboard_client.sh meu-cliente monitoring.dominio.comTransferir para o cliente: scp -r ./dist/client-meu-cliente/ user@ip-cliente:~/Subir agentes no cliente: docker compose up -d📋 Parâmetros e RequisitosRecursoRequisito MínimoObservaçãoCPU2 vCPUsRecomendado para o stack centralRAM4 GBMínimo para rodar Mimir e Loki de forma estávelDisco20 GB SSDVariável de acordo com a retenção de logsOSUbuntu 22.04+Testado e homologado nesta distribuição📂 Project StructureA organização segue o padrão de diretórios para fácil manutenção:configs/: Arquivos de definição do Mimir, Loki e Tempo.dashboards/: Templates JSON para provisionamento automático.scripts/: Automação de deploy e onboarding.docs/: Detalhamento de arquitetura e guias específicos.🤝 ContribuiçõesSinta-se à vontade para abrir uma Issue ou enviar um Pull Request.
+Open Grafana at http://YOUR_SERVER_IP:30052. Add a Client/ServerRun on the monitoring server:Bash./scripts/onboard_client.sh my-client monitoring.yourdomain.com
+Copy the generated bundle to the client server:Bashscp -r ./dist/client-my-client/ user@client-server:~/
+Run on the client server:Bashcd ~/client-my-client && docker compose up -d
+Finalize in Grafana:Bash./scripts/deploy_tenant.sh MY-CLIENT
+📋 RequirementsRoleSpecificationsMonitoring ServerUbuntu 22.04+, Docker 24+, 2+ vCPUs, 4+ GB RAMClient ServerDocker 24+, ~256 MB RAM for all agents📦 Project StructurePlaintextmonitoring-stack/
+├── docker-compose.yml          ← Central stack (Grafana + Mimir + Loki + Tempo)
+├── central-prometheus.yml      ← HTTP probes config
+├── configs/                    ← Service configs (Loki, Mimir, Tempo, Grafana)
+├── scripts/
+│   ├── setup.sh                ← Interactive setup
+│   ├── onboard_client.sh       ← Generate client bundle
+│   └── deploy_tenant.sh        ← Create isolated dashboard
+└── docs/                       ← Full documentation
+🤝 Contributing & LicenseContributions welcome! Open an issue or PR.License: MIT — use it freely, even commercially.
